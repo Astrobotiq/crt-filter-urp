@@ -27,7 +27,7 @@ This package provides a high-performance, **Render Graph API** compatible CRT (C
 ### 2. Material & Renderer Feature Setup
 Since this package provides the raw shader to keep the repository lightweight, you must create a material first:
 1.  In your Project window, right-click and select **Create > Material**. Name it `CRT_Material`.
-2.  Select the newly created material and change its shader to `Hidden/Custom/CRTFilter` from the Inspector dropdown.
+2.  Select the newly created material and change its shader to `Custom/CRTFilter` from the Inspector dropdown.
 3.  Locate your project's `Universal Renderer Data` asset.
 4.  Click **Add Renderer Feature** and select `Crt Renderer Feature`.
 5.  Assign your `CRT_Material` to the material slot in the Renderer Feature.
@@ -37,25 +37,57 @@ Since this package provides the raw shader to keep the repository lightweight, y
 ## Parameter Reference
 
 ### Screen Geometry
-| Parameter | Default | Description |
+| Parameter | Range | Description |
 | :--- | :--- | :--- |
-| **Screen Bend** | 0.0 | Controls the spherical curvature of the tube. |
-| **Screen Overscan** | 0.0 | Adjusts the zoom level to hide/show screen edges. |
-| **Pixel Resolution** | 320x240 | Sets the virtual resolution for the downscaling effect. |
+| **Screen Bend** | `0.0 - 10.0` | Controls the spherical curvature of the tube. Higher values increase the warp effect. |
+| **Screen Overscan** | `0.0 - 0.2` | Adjusts the zoom level to hide or show the distorted screen edges. |
+| **Pixel Resolution** | `Vector2` | Sets the virtual downscaled resolution for the pixelation effect (e.g., 320x240). |
 
-### Artifacts & Blur
-| Parameter | Default | Description |
+### Vignette
+| Parameter | Range | Description |
 | :--- | :--- | :--- |
-| **Blur** | 0.0 | Intensity of the Gaussian blur pass. |
-| **Bleed** | 0.0 | Horizontal phosphor smear effect. |
-| **Smidge** | 0.0 | Micro-jittering of scanlines for analog instability. |
+| **Vignette Size** | `0.0 - 2.0` | Determines the radius/size of the darkened corners. |
+| **Vignette Smooth** | `0.0 - 1.0` | Controls the softness and falloff gradient of the vignette edge. |
+| **Vignette Round** | `0.0 - 1.0` | Blends between a screen-fitted oval (0.0) and a perfect circle (1.0). |
 
-### Scanlines & Noise
-| Parameter | Default | Description |
+### Blur Effects
+| Parameter | Range | Description |
 | :--- | :--- | :--- |
-| **Scanlines** | 0.04 | Opacity of the horizontal scanline grid. |
-| **Shadowlines** | 0.0 | Speed and intensity of the vertical rolling dark bar. |
-| **Noise Alpha** | 0.0 | Amount of procedural analog signal noise. |
+| **Blur** | `0.0 - 4.0` | Intensity of the Gaussian blur pass simulating out-of-focus electron beams. |
+| **Bleed** | `0.0 - 1.0` | Amount of horizontal phosphor color smearing/bleeding. |
+| **Smidge** | `0.0 - 1.0` | Intensity of per-scanline micro-jittering for analog instability. |
+
+### Scanlines and Noise
+| Parameter | Range | Description |
+| :--- | :--- | :--- |
+| **Scanlines Strength** | `0.0 - 1.0` | Opacity of the static horizontal scanline grid. |
+| **Aperture Strength** | `0.0 - 1.0` | Simulates the vertical RGB aperture grille mask of classic CRT TVs. |
+| **Shadowlines** | `0.0 - 1.0` | Thickness/visibility of the vertical rolling dark bar (V-Sync artifact). |
+| **Shadowlines Speed**| `0.0 - 5.0` | Travel speed of the rolling shadowlines across the screen. |
+| **Shadowlines Alpha**| `0.0 - 1.0` | Transparency of the rolling shadowlines. |
+| **Noise Size** | `1.0 - 8.0` | Scale and coarseness of the procedural analog static. |
+| **Noise Speed** | `0.0 - 60.0`| How fast the static noise pattern updates. |
+| **Noise Alpha** | `0.0 - 1.0` | Master opacity of the procedural analog signal noise. |
+
+### Image Adjustments
+| Parameter | Range | Description |
+| :--- | :--- | :--- |
+| **Brightness** | `0.0 - 3.0` | Overall luminance multiplier for the final output. |
+| **Contrast** | `0.0 - 3.0` | Contrast ratio scaling for the final image. |
+| **Gamma** | `0.1 - 3.0` | Gamma correction curve adjustment. |
+| **Red / Green / Blue** | `0.0 - 2.0` | Multipliers for the individual color channels. |
+
+### Chromatic Aberration
+| Parameter | Range | Description |
+| :--- | :--- | :--- |
+| **Red Offset** | `-0.05 - 0.05` | Radial displacement of the red color channel. |
+| **Green Offset**| `-0.05 - 0.05` | Radial displacement of the green color channel. |
+| **Blue Offset** | `-0.05 - 0.05` | Radial displacement of the blue color channel. |
+
+### Global
+| Parameter | Range | Description |
+| :--- | :--- | :--- |
+| **Intensity** | `0.0 - 1.0` | Master weight/opacity of the entire CRT effect over the original camera image. |
 
 ---
 
